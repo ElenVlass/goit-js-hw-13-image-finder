@@ -18,7 +18,7 @@ export default class PixabayApiService {
       .then((data) => {
         this.incrementPage(); // изменяю значение page, если запрос был успешным;
         return data.hits;
-      });
+      }).catch(console.log);
     
   }
 
