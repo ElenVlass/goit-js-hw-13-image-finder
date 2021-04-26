@@ -8,23 +8,27 @@ import PixabayApiService from './js/apiService';
 import SearchBtn from './js/SearchBtn'
 import { createGalleryMarkup, prependMoreCardsMarkup } from './js/render-cards-list';
 import showError from './js/showError';
+import windowsScrolling from './js/observe'
+import * as basicLightbox from 'basiclightbox';
 
 
 const pixabayApiService = new PixabayApiService();
 const searchBtn = new SearchBtn('[data-action="search"]');
-const loadMoreBtn = new SearchBtn('[data-action="load-more"]', true)
+const loadMoreBtn = new SearchBtn('[data-action="load-more"]', true);
 
 
 refs.form.addEventListener('submit', handleSearchInput);
 loadMoreBtn.btn.addEventListener('click', handleLoadMoreClick);
+refs.js-photo-albom.addEventListener('click', openModal)
+
 
 console.log(searchBtn.label.textContent);
 
 function handleSearchInput(e) {
     e.preventDefault();
 
-    pixabayApiService.query = e.currentTarget.elements.query.value;
-    if (pixabayApiService.query === '' || pixabayApiService.query === ' ') {
+    pixabayApiService.query = e.currentTarget.elements.query.value.trim();
+    if (pixabayApiService.query === '') {
         showError();
     
     } else {
@@ -42,10 +46,7 @@ function handleLoadMoreClick() {
     pixabayApiService.fetchPhotos().then(photos => {
         prependMoreCardsMarkup(photos);
         loadMoreBtn.enable('Load more');
-    });
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        windowsScrolling()
     });
 }
 
