@@ -1,5 +1,5 @@
 export default {
     form: document.getElementById('search-form'),
     gallery: document.querySelector('.gallery'),
-    // loadMoreBtn: document.querySelector('[data-action="load-more"]')
+    photo: document.querySelector('.js-photo-item')
 }
