@@ -26,10 +26,10 @@ function handleSearchInput(e) {
         showError();
     } else {
         searchBtn.disable();
-        loadMoreBtn.show();
         pixabayApiService.fetchPhotos().then(photos => {
             createGalleryMarkup(photos);
             searchBtn.enable('Search');
+            loadMoreBtn.show();
         });
     }
 }

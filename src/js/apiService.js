@@ -7,24 +7,26 @@ export default class PixabayApiService {
     this.page = 1;
   }
 
-  fetchPhotos() {
+  async fetchPhotos() {
+    try {
     const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${MY_KEY}`;
-  
-      return fetch(url)
-      .then(response => response.json())
-      .then((data) => {
-        this.incrementPage(); // изменяю значение page, если запрос был успешным;
-        return data.hits;
-      }).catch(console.log);
-    
+      const responce = await fetch(url);
+      const photos = await responce.json();
+      this.incrementPage();
+      return photos.hits;
+    } catch (error) {
+      throw error;
+      };
   }
 
-  fetchPhotoById(id) {
-    return fetch(`${BASE_URL}?key=${MY_KEY}&id=${id}`)
-      .then(response => response.json())
-      .then((data) => {
-        return data.hits[0];
-      }).catch(console.log);
+  async fetchPhotoById(id) {
+    try {
+      const response = await fetch(`${BASE_URL}?key=${MY_KEY}&id=${id}`);
+      const photo = await response.json();
+    return photo.hits[0];}
+    catch (error) {
+      throw error;
+    }
   }
 
   incrementPage() {
